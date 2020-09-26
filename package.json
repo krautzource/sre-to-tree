@@ -1,0 +1,30 @@
+{
+  "name": "sre-to-tree",
+  "version": "1.0.0",
+  "description": "Rewritig speech-rule-engine enriched DOM nodes to a labeled WAI ARIA tree",
+  "main": "lib.js",
+  "scripts": {
+    "release": "standard-version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krautzource/sre-to-tree.git"
+  },
+  "keywords": [
+    "speech-rule-engine",
+    "accessibility",
+    "aria",
+    "tree",
+    "mathjax"
+  ],
+  "author": "krautzource",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krautzource/sre-to-tree/issues"
+  },
+  "homepage": "https://github.com/krautzource/sre-to-tree#readme",
+  "devDependencies": {
+    "standard-version": "^9.0.0"
+  }
+}
