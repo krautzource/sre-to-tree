@@ -28,6 +28,10 @@ const generateLabelAndRole = function (node) {
  * @param {hash} hash The hash used to ensure unique IDs.
  */
 function rewriteNode(hash, node) {
+  if (!node) {
+    console.warn('Cannot rewrite falsy node');
+    return;
+  }
   node.setAttribute(
     'id',
     generateId(hash, node.getAttribute('data-semantic-id'))
