@@ -29,7 +29,7 @@ const generateLabelAndRole = function (node) {
  */
 function rewriteNode(hash, node) {
   if (!node) {
-    console.warn('Cannot rewrite falsy node');
+    console.warn('Cannot rewrite falsy node - hash', hash);
     return;
   }
   node.setAttribute(
