@@ -1,8 +1,18 @@
 const crypto = require('crypto');
 
-function generateId(hash, id) {
+/**
+ * Creates valid ID from fixed prefix and hash as well as running index.
+ * @param {string} hash string unique to root node
+ * @param {string} id string unique to current node
+ */
+const generateId = (hash, id) => {
   return 'MJX-' + hash + '-' + id;
-}
+};
+
+/**
+ * Creates aria-label from SRE attribute and changes role if needed.
+ * @param {Node} node current node
+ */
 const generateLabelAndRole = function (node) {
   if (node.hasAttribute('data-semantic-speech')) {
     let speech = '';
@@ -23,7 +33,7 @@ const generateLabelAndRole = function (node) {
 };
 
 /**
- * Rewrites the DOM node.
+ * Rewrites the DOM node and potentially recurses to children.
  * @param {Node} node The DOM node to rewrite.
  * @param {hash} hash The hash used to ensure unique IDs.
  */
@@ -49,6 +59,12 @@ function rewriteNode(hash, node) {
     .forEach(rewriteNode.bind(null, hash));
 }
 
+/**
+ *
+ * @param {Node} oldnode Node to move attribute away from
+ * @param {Node} newnode Node to move attribute to
+ * @param {string} attribute Name of attribute to be moved
+ */
 const moveAttribute = (oldnode, newnode, attribute) => {
   if (!oldnode || !newnode || oldnode === newnode) return;
   const value = oldnode.getAttribute(attribute);
@@ -57,6 +73,10 @@ const moveAttribute = (oldnode, newnode, attribute) => {
   oldnode.removeAttribute(attribute);
 };
 
+/**
+ *
+ * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
+ */
 const rewrite = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-speech]');
   const hash = crypto.createHash('md5').update(node.outerHTML).digest('hex');
