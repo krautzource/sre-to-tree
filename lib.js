@@ -67,11 +67,11 @@ const rewrite = (node) => {
   skeletonNode.querySelectorAll('*').forEach((child) => {
     if (!child.getAttribute('role')) child.setAttribute('role', 'presentation');
   });
-  // HACK cf. #39
-  const svg = skeletonNode.closest('svg');
-  ['aria-owns', 'aria-label', 'role', 'tabindex', 'data-treewalker'].forEach(
-    moveAttribute.bind(null, skeletonNode, svg)
-  );
+  if (node !== skeletonNode) {
+    moveAttribute(skeletonNode, node, 'aria-owns');
+    moveAttribute(skeletonNode, node, 'aria-label');
+    skeletonNode.setAttribute('role', 'presentation');
+  }
   return node;
 };
 
