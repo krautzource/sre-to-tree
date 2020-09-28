@@ -5,7 +5,7 @@
   "main": "lib.js",
   "scripts": {
     "release": "standard-version",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,9 @@
   },
   "homepage": "https://github.com/krautzource/sre-to-tree#readme",
   "devDependencies": {
-    "standard-version": "^9.0.0"
+    "mathjax-full": "^3.1.2",
+    "speech-rule-engine": "^3.1.1",
+    "standard-version": "^9.0.0",
+    "tape": "^5.0.1"
   }
 }
