@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/krautzource/sre-to-tree/compare/v1.1.0...v1.1.1) (2020-10-03)
+
+
+### Bug Fixes
+
+* avoid throwing when no SRE markup ([7063588](https://github.com/krautzource/sre-to-tree/commit/7063588aeb19c457c93d884b1f44b8e3c88bb698)), closes [#3](https://github.com/krautzource/sre-to-tree/issues/3)
+* **package:** add jsdom to dev-dependencies ([62fe911](https://github.com/krautzource/sre-to-tree/commit/62fe911cdcbb3fdde4f488a32c36d5704c25a44f)), closes [#5](https://github.com/krautzource/sre-to-tree/issues/5)
+
 ## [1.1.0](https://github.com/krautzource/sre-to-tree/compare/v1.0.0...v1.1.0) (2020-09-28)
 
 
