@@ -79,6 +79,10 @@ const moveAttribute = (oldnode, newnode, attribute) => {
  */
 const rewrite = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-speech]');
+  if (!skeletonNode) {
+    console.warn('sre-to-tree: no SRE markup found', node);
+    return node;
+  }
   const hash = crypto.createHash('md5').update(node.outerHTML).digest('hex');
   node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'tree');
