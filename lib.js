@@ -34,10 +34,13 @@ const generateLabelAndRole = function (node) {
 
 /**
  * Rewrites the DOM node and potentially recurses to children.
- * @param {Node} node The DOM node to rewrite.
  * @param {hash} hash The hash used to ensure unique IDs.
+ * @param {Number} level The parent node's level in the tree.
+ * @param {Node} node The DOM node to rewrite (usually passed from Array.prototype.forEach).
+ * @param {Number} index The index (passed from Array.prototype.forEach).
+ * @param {Array} array The array (passed from Array.prototype.forEach).
  */
-function rewriteNode(hash, node) {
+function rewriteNode(hash, level, node, index, array) {
   if (!node) {
     console.warn('Cannot rewrite falsy node - hash', hash);
     return;
@@ -46,6 +49,12 @@ function rewriteNode(hash, node) {
     'id',
     generateId(hash, node.getAttribute('data-semantic-id'))
   );
+  level++;
+  node.setAttribute('aria-level', level);
+  if (Number.isInteger(index) && array.length) {
+    node.setAttribute('aria-posinset', ++index);
+    node.setAttribute('aria-setsize', array.length);
+  }
   generateLabelAndRole(node);
   const owned = node.getAttribute('data-semantic-owns');
   if (!owned) return;
@@ -56,7 +65,7 @@ function rewriteNode(hash, node) {
   );
   combinedSemanticChildrenIDs
     .map((id) => node.querySelector('[data-semantic-id="' + id + '"'))
-    .forEach(rewriteNode.bind(null, hash));
+    .forEach(rewriteNode.bind(null, hash, level));
 }
 
 /**
@@ -87,13 +96,15 @@ const rewrite = (node) => {
   node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'tree');
   node.setAttribute('data-treewalker', '');
-  rewriteNode(hash, skeletonNode);
+  const level = 0;
+  rewriteNode(hash, level, skeletonNode);
   skeletonNode.querySelectorAll('*').forEach((child) => {
     if (!child.getAttribute('role')) child.setAttribute('role', 'presentation');
   });
   if (node !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'aria-owns');
     moveAttribute(skeletonNode, node, 'aria-label');
+    moveAttribute(skeletonNode, node, 'aria-level');
     skeletonNode.setAttribute('role', 'presentation');
   }
   return node;
