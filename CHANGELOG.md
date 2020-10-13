@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/krautzource/sre-to-tree/compare/v1.1.1...v1.2.0) (2020-10-13)
+
+
+### Features
+
+* add aria-level, -posinset, -setsize ([65b5f16](https://github.com/krautzource/sre-to-tree/commit/65b5f167b2f59d5f8bddcc8196c8fac8b70ba960)), closes [#7](https://github.com/krautzource/sre-to-tree/issues/7)
+
 ### [1.1.1](https://github.com/krautzource/sre-to-tree/compare/v1.1.0...v1.1.1) (2020-10-03)
 
 
