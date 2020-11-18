@@ -20,6 +20,11 @@ const generateLabelAndRole = function (node) {
       speech += node.getAttribute('data-semantic-prefix') + ' ';
     speech += node.getAttribute('data-semantic-speech');
     node.setAttribute('aria-label', speech);
+    if (node.getAttribute('data-semantic-braille'))
+      node.setAttribute(
+        'aria-braillelabel',
+        node.getAttribute('data-semantic-braille')
+      );
     if (
       node.hasAttribute('role') ||
       node.tagName === 'A' ||
@@ -104,6 +109,7 @@ const rewrite = (node) => {
   if (node !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'aria-owns');
     moveAttribute(skeletonNode, node, 'aria-label');
+    moveAttribute(skeletonNode, node, 'aria-braillelabel');
     moveAttribute(skeletonNode, node, 'aria-level');
     skeletonNode.setAttribute('role', 'presentation');
   }

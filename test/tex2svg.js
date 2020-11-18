@@ -31,7 +31,6 @@ const tex2mml = (string, display) => {
   );
 };
 
-
 // MathML to SVG / CHTML
 const mathjax = require('mathjax-full/js/mathjax.js').mathjax;
 const MathML = require('mathjax-full/js/input/mathml.js').MathML;
@@ -59,6 +58,34 @@ const mjenrich = (texstring, displayBool) => {
     ex: 8,
     containerWidth: 80 * 16,
   });
+
+  // switch SRE to Braille
+  sre.setupEngine({
+    domain: 'default',
+    style: 'default',
+    locale: 'nemeth',
+    modality: 'braille',
+    speech: 'deep',
+    structure: true,
+    mode: 'sync',
+  });
+  sre.engineReady();
+  const enrichedMmlBraille = sre.toEnriched(mml).toString();
+  const dom = new JSDOM(`<!DOCTYPE html>${enrichedMmlBraille}`);
+  const brailleDoc = dom.window.document;
+
+  // crossing the streams... cf. zorkow/speech-rule-engine#438
+  mjx.querySelectorAll('[data-semantic-speech]').forEach((node) => {
+    node.setAttribute(
+      'data-semantic-braille',
+      brailleDoc
+        .querySelector(
+          '[data-semantic-id="' + node.getAttribute('data-semantic-id') + '"]'
+        )
+        .getAttribute('data-semantic-speech')
+    );
+  });
+
   return mjx;
 };
 
