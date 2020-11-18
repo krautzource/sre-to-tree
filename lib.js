@@ -14,27 +14,27 @@ const generateId = (hash, id) => {
  * @param {Node} node current node
  */
 const generateLabelAndRole = function (node) {
-  if (node.hasAttribute('data-semantic-speech')) {
-    let speech = '';
-    if (node.getAttribute('data-semantic-prefix'))
-      speech += node.getAttribute('data-semantic-prefix') + ' ';
-    speech += node.getAttribute('data-semantic-speech');
-    node.setAttribute('aria-label', speech);
-    if (node.getAttribute('data-semantic-braille'))
-      node.setAttribute(
-        'aria-braillelabel',
-        node.getAttribute('data-semantic-braille')
-      );
-    if (
-      node.hasAttribute('role') ||
-      node.tagName === 'A' ||
-      node.tagName === 'IMAGE'
-    )
-      return;
-    node.setAttribute('role', 'treeitem');
-  } else {
+  if (!node.hasAttribute('data-semantic-speech')) {
     node.setAttribute('role', 'presentation');
+    return;
   }
+  let speech = '';
+  if (node.getAttribute('data-semantic-prefix'))
+    speech += node.getAttribute('data-semantic-prefix') + ' ';
+  speech += node.getAttribute('data-semantic-speech');
+  node.setAttribute('aria-label', speech);
+  if (node.getAttribute('data-semantic-braille'))
+    node.setAttribute(
+      'aria-braillelabel',
+      node.getAttribute('data-semantic-braille')
+    );
+  if (
+    node.hasAttribute('role') ||
+    node.tagName === 'A' ||
+    node.tagName === 'IMAGE'
+  )
+    return;
+  node.setAttribute('role', 'treeitem');
 };
 
 /**
