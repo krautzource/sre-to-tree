@@ -38,6 +38,39 @@ const generateLabelAndRole = function (node) {
 };
 
 /**
+ * Calculates the ID attribute of a semantic child node.
+ * @param {Node} node The semantic parent DOM node
+ * @param {hash} hash The hash used to ensure unique IDs.
+ * @param {Number} semanticChildId The semantic ID of a semantic child.
+ */
+const calculateOwnedId = (node, hash, semanticChildId) => {
+  const semanticChild = node.querySelector(
+    `[data-semantic-id="${semanticChildId}"]`
+  );
+  if (!semanticChild) {
+    console.warn('no semantic child found with ID: ', semanticChildId);
+    return '';
+  }
+  return semanticChild.hasAttribute('id')
+    ? semanticChild.getAttribute('id')
+    : generateId(hash, semanticChildId);
+};
+
+/**
+ * Calculates the aria-owns attribute of a semantic parent node.
+ * @param {Node} node The semantic parent DOM node
+ * @param {hash} hash The hash used to ensure unique IDs.
+ * @param {string} semanticOwned The semantic parent's data-semantic-owns attribute.
+ */
+const calculateOwnedIds = (node, hash, semanticOwned) => {
+  console.log(semanticOwned);
+  const combinedSemanticChildrenIDs = semanticOwned.split(' ');
+  return combinedSemanticChildrenIDs
+    .map(calculateOwnedId.bind(null, node, hash))
+    .join(' ');
+};
+
+/**
  * Rewrites the DOM node and potentially recurses to children.
  * @param {hash} hash The hash used to ensure unique IDs.
  * @param {Number} level The parent node's level in the tree.
@@ -50,10 +83,12 @@ function rewriteNode(hash, level, node, index, array) {
     console.warn('Cannot rewrite falsy node - hash', hash);
     return;
   }
-  node.setAttribute(
-    'id',
-    generateId(hash, node.getAttribute('data-semantic-id'))
-  );
+  if (!node.getAttribute('id')) {
+    node.setAttribute(
+      'id',
+      generateId(hash, node.getAttribute('data-semantic-id'))
+    );
+  }
   level++;
   node.setAttribute('aria-level', level);
   if (Number.isInteger(index) && array.length) {
@@ -63,12 +98,10 @@ function rewriteNode(hash, level, node, index, array) {
   generateLabelAndRole(node);
   const owned = node.getAttribute('data-semantic-owns');
   if (!owned) return;
-  const combinedSemanticChildrenIDs = owned.split(' ');
-  node.setAttribute(
-    'aria-owns',
-    combinedSemanticChildrenIDs.map(generateId.bind(null, hash)).join(' ')
-  );
-  combinedSemanticChildrenIDs
+  const ariaOwned = calculateOwnedIds(node, hash, owned);
+  node.setAttribute('aria-owns', ariaOwned);
+  owned
+    .split(' ')
     .map((id) => node.querySelector('[data-semantic-id="' + id + '"'))
     .forEach(rewriteNode.bind(null, hash, level));
 }
