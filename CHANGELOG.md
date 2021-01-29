@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/krautzource/sre-to-tree/compare/v1.3.0...v1.3.1) (2021-01-29)
+
+
+### Bug Fixes
+
+* preserve pre-existing IDs ([542801f](https://github.com/krautzource/sre-to-tree/commit/542801fdfa51e0f81da147357ce9aa1eb6f4af39)), closes [#11](https://github.com/krautzource/sre-to-tree/issues/11)
+
 ## [1.3.0](https://github.com/krautzource/sre-to-tree/compare/v1.2.0...v1.3.0) (2020-11-18)
 
 
