@@ -63,7 +63,6 @@ const calculateOwnedId = (node, hash, semanticChildId) => {
  * @param {string} semanticOwned The semantic parent's data-semantic-owns attribute.
  */
 const calculateOwnedIds = (node, hash, semanticOwned) => {
-  console.log(semanticOwned);
   const combinedSemanticChildrenIDs = semanticOwned.split(' ');
   return combinedSemanticChildrenIDs
     .map(calculateOwnedId.bind(null, node, hash))
