@@ -43,10 +43,8 @@ const generateLabelAndRole = function (node) {
  * @param {hash} hash The hash used to ensure unique IDs.
  * @param {Number} semanticChildId The semantic ID of a semantic child.
  */
-const calculateOwnedId = (node, hash, semanticChildId) => {
-  const semanticChild = node.querySelector(
-    `[data-semantic-id="${semanticChildId}"]`
-  );
+const calculateOwnedId = (semanticIdTable, hash, semanticChildId) => {
+  const semanticChild = semanticIdTable[semanticChildId];
   if (!semanticChild) {
     console.warn('no semantic child found with ID: ', semanticChildId);
     return '';
@@ -58,26 +56,27 @@ const calculateOwnedId = (node, hash, semanticChildId) => {
 
 /**
  * Calculates the aria-owns attribute of a semantic parent node.
- * @param {Node} node The semantic parent DOM node
+ * @param {Object} semanticIdTable A hash table to look up nodes by data-semantic-id.
  * @param {hash} hash The hash used to ensure unique IDs.
  * @param {string} semanticOwned The semantic parent's data-semantic-owns attribute.
  */
-const calculateOwnedIds = (node, hash, semanticOwned) => {
+const calculateOwnedIds = (semanticIdTable, hash, semanticOwned) => {
   const combinedSemanticChildrenIDs = semanticOwned.split(' ');
   return combinedSemanticChildrenIDs
-    .map(calculateOwnedId.bind(null, node, hash))
+    .map(calculateOwnedId.bind(null, semanticIdTable, hash))
     .join(' ');
 };
 
 /**
  * Rewrites the DOM node and potentially recurses to children.
+ * @param {Object} semanticIdTable A hash table to look up nodes by data-semantic-id.
  * @param {hash} hash The hash used to ensure unique IDs.
  * @param {Number} level The parent node's level in the tree.
  * @param {Node} node The DOM node to rewrite (usually passed from Array.prototype.forEach).
  * @param {Number} index The index (passed from Array.prototype.forEach).
  * @param {Array} array The array (passed from Array.prototype.forEach).
  */
-function rewriteNode(hash, level, node, index, array) {
+function rewriteNode(semanticIdTable, hash, level, node, index, array) {
   if (!node) {
     console.warn('Cannot rewrite falsy node - hash', hash);
     return;
@@ -95,14 +94,14 @@ function rewriteNode(hash, level, node, index, array) {
     node.setAttribute('aria-setsize', array.length);
   }
   generateLabelAndRole(node);
-  const owned = node.getAttribute('data-semantic-owns');
-  if (!owned) return;
-  const ariaOwned = calculateOwnedIds(node, hash, owned);
+  const semanticOwned = node.getAttribute('data-semantic-owns');
+  if (!semanticOwned) return;
+  const ariaOwned = calculateOwnedIds(semanticIdTable, hash, semanticOwned);
   node.setAttribute('aria-owns', ariaOwned);
-  owned
+  semanticOwned
     .split(' ')
-    .map((id) => node.querySelector('[data-semantic-id="' + id + '"'))
-    .forEach(rewriteNode.bind(null, hash, level));
+    .map((id) => semanticIdTable[id])
+    .forEach(rewriteNode.bind(null, semanticIdTable, hash, level));
 }
 
 /**
@@ -120,6 +119,19 @@ const moveAttribute = (oldnode, newnode, attribute) => {
 };
 
 /**
+ * Creates a hash map of nodes with data-semantic-id attribute.
+ * @param {NodeList} nodes A DOM node list containing some nodes with data-semantic-id attribute
+ */
+const generateSemanticIdTable = (nodes) => {
+  const result = {};
+  nodes.forEach((node) => {
+    if (!node.hasAttribute('data-semantic-id')) return;
+    result[node.getAttribute('data-semantic-id')] = node;
+  });
+  return result;
+};
+
+/**
  *
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
  */
@@ -134,8 +146,10 @@ const rewrite = (node) => {
   node.setAttribute('role', 'tree');
   node.setAttribute('data-treewalker', '');
   const level = 0;
-  rewriteNode(hash, level, skeletonNode);
-  skeletonNode.querySelectorAll('*').forEach((child) => {
+  const descendantNodes = skeletonNode.querySelectorAll('*');
+  const semanticIdTable = generateSemanticIdTable(descendantNodes);
+  rewriteNode(semanticIdTable, hash, level, skeletonNode);
+  descendantNodes.forEach((child) => {
     if (!child.getAttribute('role')) child.setAttribute('role', 'presentation');
   });
   if (node !== skeletonNode) {
