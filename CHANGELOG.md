@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/krautzource/sre-to-tree/compare/v1.3.2...v1.3.3) (2021-02-02)
+
+
+### Bug Fixes
+
+* rewrite children that are not descendants ([4e834e4](https://github.com/krautzource/sre-to-tree/commit/4e834e40716dd520752f714176dbc90b61c07e5d)), closes [#10](https://github.com/krautzource/sre-to-tree/issues/10)
+
 ### [1.3.2](https://github.com/krautzource/sre-to-tree/compare/v1.3.1...v1.3.2) (2021-02-01)
 
 
