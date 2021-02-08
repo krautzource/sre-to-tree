@@ -28,12 +28,6 @@ const generateLabelAndRole = function (node) {
       'aria-braillelabel',
       node.getAttribute('data-semantic-braille')
     );
-  if (
-    node.hasAttribute('role') ||
-    node.tagName === 'A' ||
-    node.tagName === 'IMAGE'
-  )
-    return;
   node.setAttribute('role', 'treeitem');
 };
 
