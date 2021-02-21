@@ -6,7 +6,7 @@ const crypto = require('crypto');
  * @param {string} id string unique to current node
  */
 const generateId = (hash, id) => {
-  return 'MJX-' + hash + '-' + id;
+  return 'sretree-' + hash + '-' + id;
 };
 
 /**
