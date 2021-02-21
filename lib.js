@@ -136,7 +136,6 @@ const rewrite = (node) => {
     return node;
   }
   const hash = crypto.createHash('md5').update(node.outerHTML).digest('hex');
-  node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'tree');
   node.setAttribute('data-treewalker', '');
   const level = 0;
