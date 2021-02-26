@@ -91,6 +91,10 @@ function rewriteNode(semanticIdTable, hash, level, node, index, array) {
   const semanticOwned = node.getAttribute('data-semantic-owns');
   if (!semanticOwned) return;
   const ariaOwned = calculateOwnedIds(semanticIdTable, hash, semanticOwned);
+  if (ariaOwned.includes('  ')) {
+    console.warn('empty aria-own part; stopping recursion')
+    return;
+  }
   node.setAttribute('aria-owns', ariaOwned);
   semanticOwned
     .split(' ')
@@ -105,9 +109,8 @@ function rewriteNode(semanticIdTable, hash, level, node, index, array) {
  * @param {string} attribute Name of attribute to be moved
  */
 const moveAttribute = (oldnode, newnode, attribute) => {
-  if (!oldnode || !newnode || oldnode === newnode) return;
+  if (!oldnode || !newnode || oldnode === newnode || !oldnode.hasAttribute(attribute)) return;
   const value = oldnode.getAttribute(attribute);
-  if (!value) return;
   newnode.setAttribute(attribute, value);
   oldnode.removeAttribute(attribute);
 };
