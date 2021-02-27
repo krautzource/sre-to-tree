@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](https://github.com/krautzource/sre-to-tree/compare/v1.3.3...v1.3.4) (2021-02-27)
+
+
+### Bug Fixes
+
+* improve handling of unexpected input ([0280400](https://github.com/krautzource/sre-to-tree/commit/0280400e791a09c7f19ff6794f6315ddb80630a7)), closes [#14](https://github.com/krautzource/sre-to-tree/issues/14)
+* remove data-treewalker attribute ([dabbfcc](https://github.com/krautzource/sre-to-tree/commit/dabbfcc3ad3dae74fd1edfe58c2d7f4f1464b2fc)), closes [#17](https://github.com/krautzource/sre-to-tree/issues/17)
+* remove special treatment of a, image, *[role] ([806ac9a](https://github.com/krautzource/sre-to-tree/commit/806ac9a9235b6f446bdbc7a41d67fdbbf292324d)), closes [#13](https://github.com/krautzource/sre-to-tree/issues/13)
+* remove tabindex ([94d3d7b](https://github.com/krautzource/sre-to-tree/commit/94d3d7b62163d78388a8d9c4cf6656f92f853249)), closes [#16](https://github.com/krautzource/sre-to-tree/issues/16)
+
 ### [1.3.3](https://github.com/krautzource/sre-to-tree/compare/v1.3.2...v1.3.3) (2021-02-02)
 
 
