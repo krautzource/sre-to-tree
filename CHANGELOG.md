@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.5](https://github.com/krautzource/sre-to-tree/compare/v1.3.4...v1.3.5) (2021-02-27)
+
+
+### Bug Fixes
+
+* **package:** typo in scope ([3efdb75](https://github.com/krautzource/sre-to-tree/commit/3efdb755bfa929ff982d435ff5f33c8769c3c214))
+
 ### [1.3.4](https://github.com/krautzource/sre-to-tree/compare/v1.3.3...v1.3.4) (2021-02-27)
 
 
