@@ -145,7 +145,7 @@ const rewrite = (node) => {
   const semanticIdTable = generateSemanticIdTable(descendantNodes);
   rewriteNode(semanticIdTable, hash, level, skeletonNode);
   descendantNodes.forEach((child) => {
-    if (!child.getAttribute('role')) child.setAttribute('role', 'presentation');
+    if (!child.getAttribute('role') && child.tagName.toUpperCase() !== 'A') child.setAttribute('role', 'presentation');
   });
   if (node !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'aria-owns');
