@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/krautzource/sre-to-tree/compare/v1.3.5...v1.4.0) (2021-03-13)
+
+
+### Features
+
+* "reinstate" anchors ([eca1914](https://github.com/krautzource/sre-to-tree/commit/eca19148b2f1bb059739414aa017bf78dd6fcba9)), closes [#19](https://github.com/krautzource/sre-to-tree/issues/19)
+* improve anchors ([e2afba8](https://github.com/krautzource/sre-to-tree/commit/e2afba8ede649edf35080c0973ff42ba4133e229)), closes [#22](https://github.com/krautzource/sre-to-tree/issues/22)
+
 ### [1.3.5](https://github.com/krautzource/sre-to-tree/compare/v1.3.4...v1.3.5) (2021-02-27)
 
 
