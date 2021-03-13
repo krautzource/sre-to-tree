@@ -130,6 +130,25 @@ const generateSemanticIdTable = (nodes) => {
 
 /**
  *
+ * @param {Node} child A DOM descendant to postprocess
+ */
+ const postprocessingDescendant = (child) => {
+  if (child.getAttribute('role')) return;
+  if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
+    child.setAttribute('role', 'presentation');
+    return;
+  }
+  const firstSemanticChild = child.querySelector('[data-semantic-speech]');
+  if (!firstSemanticChild) {
+    console.warn('Link without semantic child');
+    return;
+  }
+  firstSemanticChild.setAttribute('data-href', child.getAttribute('href'));
+  firstSemanticChild.setAttribute('aria-label', firstSemanticChild.getAttribute('aria-label') + ' link'); // TODO R&D braille display affordances and how to fit them together with Nemeth
+}
+
+/**
+ *
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
  */
 const rewrite = (node) => {
@@ -144,9 +163,7 @@ const rewrite = (node) => {
   const descendantNodes = skeletonNode.querySelectorAll('*');
   const semanticIdTable = generateSemanticIdTable(descendantNodes);
   rewriteNode(semanticIdTable, hash, level, skeletonNode);
-  descendantNodes.forEach((child) => {
-    if (!child.getAttribute('role') && child.tagName.toUpperCase() !== 'A') child.setAttribute('role', 'presentation');
-  });
+  descendantNodes.forEach(postprocessingDescendant);
   if (node !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'aria-owns');
     moveAttribute(skeletonNode, node, 'aria-label');
