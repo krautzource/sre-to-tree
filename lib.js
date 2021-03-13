@@ -92,7 +92,7 @@ function rewriteNode(semanticIdTable, hash, level, node, index, array) {
   if (!semanticOwned) return;
   const ariaOwned = calculateOwnedIds(semanticIdTable, hash, semanticOwned);
   if (ariaOwned.includes('  ')) {
-    console.warn('empty aria-own part; stopping recursion')
+    console.warn('empty aria-own part; stopping recursion');
     return;
   }
   node.setAttribute('aria-owns', ariaOwned);
@@ -109,7 +109,13 @@ function rewriteNode(semanticIdTable, hash, level, node, index, array) {
  * @param {string} attribute Name of attribute to be moved
  */
 const moveAttribute = (oldnode, newnode, attribute) => {
-  if (!oldnode || !newnode || oldnode === newnode || !oldnode.hasAttribute(attribute)) return;
+  if (
+    !oldnode ||
+    !newnode ||
+    oldnode === newnode ||
+    !oldnode.hasAttribute(attribute)
+  )
+    return;
   const value = oldnode.getAttribute(attribute);
   newnode.setAttribute(attribute, value);
   oldnode.removeAttribute(attribute);
@@ -132,7 +138,7 @@ const generateSemanticIdTable = (nodes) => {
  *
  * @param {Node} child A DOM descendant to postprocess
  */
- const postprocessingDescendant = (child) => {
+const postprocessingDescendant = (child) => {
   if (child.getAttribute('role')) return;
   if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
     child.setAttribute('role', 'presentation');
@@ -144,8 +150,11 @@ const generateSemanticIdTable = (nodes) => {
     return;
   }
   firstSemanticChild.setAttribute('data-href', child.getAttribute('href'));
-  firstSemanticChild.setAttribute('aria-label', firstSemanticChild.getAttribute('aria-label') + ' link'); // TODO R&D braille display affordances and how to fit them together with Nemeth
-}
+  firstSemanticChild.setAttribute(
+    'aria-label',
+    firstSemanticChild.getAttribute('aria-label') + ' link'
+  ); // TODO R&D braille display affordances and how to fit them together with Nemeth
+};
 
 /**
  *
