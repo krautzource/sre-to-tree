@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/krautzource/sre-to-tree/compare/v1.4.0...v2.0.0) (2021-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* no longer uses aria-owns+id attributes to document tree but data-owns+data-owns-id instead.
+
+### Features
+
+* switch from aria-owns to data-owns ([274bc44](https://github.com/krautzource/sre-to-tree/commit/274bc447bc4456f344bdef3df2d81d2a0d0f895b)), closes [#20](https://github.com/krautzource/sre-to-tree/issues/20)
+
 ## [1.4.0](https://github.com/krautzource/sre-to-tree/compare/v1.3.5...v1.4.0) (2021-03-13)
 
 
