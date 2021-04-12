@@ -118,7 +118,7 @@ const rewrite = (node) => {
   }
   node.setAttribute('role', 'tree');
   const level = 0;
-  const descendantNodes = skeletonNode.querySelectorAll('*');
+  const descendantNodes = node.querySelectorAll('*');
   const semanticIdTable = generateSemanticIdTable(descendantNodes);
   rewriteNode(semanticIdTable, level, skeletonNode);
   descendantNodes.forEach(postprocessingDescendant);
