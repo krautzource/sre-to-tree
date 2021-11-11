@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/krautzource/sre-to-tree/compare/v2.0.1...v2.0.2) (2021-11-11)
+
+
+### Bug Fixes
+
+* add aria-hidden to all treeitems ([5ef4cb5](https://github.com/krautzource/sre-to-tree/commit/5ef4cb554e9fc4a9317a132ec90a2901b739c033)), closes [#27](https://github.com/krautzource/sre-to-tree/issues/27)
+* prevent empty aria-label ([f4f1182](https://github.com/krautzource/sre-to-tree/commit/f4f11821d7d56f7b4746434d9de2254e93e910d1)), closes [#26](https://github.com/krautzource/sre-to-tree/issues/26)
+
 ### [2.0.1](https://github.com/krautzource/sre-to-tree/compare/v2.0.0...v2.0.1) (2021-04-12)
 
 
