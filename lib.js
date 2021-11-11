@@ -11,6 +11,7 @@ const generateLabelAndRole = function (node) {
   if (node.getAttribute('data-semantic-prefix'))
     speech += node.getAttribute('data-semantic-prefix') + ' ';
   speech += node.getAttribute('data-semantic-speech');
+  if (speech === '') speech = 'blank';
   node.setAttribute('aria-label', speech);
   if (node.getAttribute('data-semantic-braille'))
     node.setAttribute(
