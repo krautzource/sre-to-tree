@@ -19,6 +19,7 @@ const generateLabelAndRole = function (node) {
       node.getAttribute('data-semantic-braille')
     );
   node.setAttribute('role', 'treeitem');
+  node.setAttribute('aria-hidden', 'true');
 };
 
 /**
@@ -128,6 +129,7 @@ const rewrite = (node) => {
     moveAttribute(skeletonNode, node, 'aria-label');
     moveAttribute(skeletonNode, node, 'aria-braillelabel');
     moveAttribute(skeletonNode, node, 'aria-level');
+    skeletonNode.removeAttribute('aria-hidden');
     skeletonNode.setAttribute('role', 'presentation');
   }
   return node;
