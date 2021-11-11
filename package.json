@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/krautzource/sre-to-tree#readme",
   "devDependencies": {
-    "jsdom": "^16.6.0",
-    "mathjax-full": "^3.1.4",
-    "speech-rule-engine": "^4.0.0-alpha.1",
-    "standard-version": "^9.3.0",
-    "tape": "^5.2.2"
+    "jsdom": "^18.0.1",
+    "mathjax-full": "^3.2.0",
+    "speech-rule-engine": "^4.0.0-beta.2",
+    "standard-version": "^9.3.2",
+    "tape": "^5.3.1"
   },
   "publishConfig": {
     "access": "public"
