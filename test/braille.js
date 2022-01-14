@@ -2,9 +2,9 @@ const test = require('tape');
 const sre2tree = require('../lib');
 const tex2svg = require('./tex2svg');
 
-test('aria-braillelabel', (t) => {
+test('aria-braillelabel', async (t) => {
   t.plan(2);
-  const out = tex2svg('f(x) = y');
+  const out = await tex2svg('f(x) = y');
   const svg = out.firstElementChild;
   sre2tree(svg); // NOTE with SVG output, rewrite the SVG node cf. krautzource/sre-to-tree#6
 
