@@ -32,12 +32,12 @@ const generateLabelAndRole = function (node) {
  */
 function rewriteNode(semanticIdTable, level, node, index, array) {
   node.setAttribute('data-owns-id', node.getAttribute('data-semantic-id'));
-  level++;
-  node.setAttribute('aria-level', level);
   if (Number.isInteger(index) && array.length) {
+    node.setAttribute('aria-level', level);
     node.setAttribute('aria-posinset', ++index);
     node.setAttribute('aria-setsize', array.length);
   }
+  level++;
   generateLabelAndRole(node);
   const semanticOwned = node.getAttribute('data-semantic-owns');
   if (!semanticOwned) return;
