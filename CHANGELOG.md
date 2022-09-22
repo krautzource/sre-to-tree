@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/krautzource/sre-to-tree/compare/v2.0.2...v3.0.0) (2022-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removes data-href, makes anchors active.
+
+### Features
+
+* revise anchor handling ([3f60216](https://github.com/krautzource/sre-to-tree/commit/3f60216669189445a1ed4730ef4a931cd330330a)), closes [#33](https://github.com/krautzource/sre-to-tree/issues/33)
+
+
+### Bug Fixes
+
+* tree root should not have level ([281f86c](https://github.com/krautzource/sre-to-tree/commit/281f86ca0ec75f12349324d657cfce1474a86dca)), closes [#30](https://github.com/krautzource/sre-to-tree/issues/30)
+
 ### [2.0.2](https://github.com/krautzource/sre-to-tree/compare/v2.0.1...v2.0.2) (2021-11-11)
 
 
