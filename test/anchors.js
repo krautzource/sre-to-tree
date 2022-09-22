@@ -3,12 +3,15 @@ const sre2tree = require('../lib');
 const tex2svg = require('./tex2svg');
 
 test('anchors', async (t) => {
-  t.plan(4);
+  t.plan(5);
   const out = await tex2svg('a  = \\href{//example.com}{link}');
   const svg = out.firstElementChild;
   sre2tree(svg);
-  t.notOk(svg.querySelector('a').getAttribute('role') , 'anchors do not get role (presentation');
-  t.equal(svg.querySelector('a > [data-semantic-speech]'), svg.querySelector('a > [data-href]'), 'Link "pushed" to first semantic child');
-  t.equal(svg.querySelector('a').getAttribute('href'), svg.querySelector('a > [data-href]').getAttribute('data-href'), '"pushed" Link data-href value');
-  t.ok(svg.querySelector('a > [data-href]').getAttribute('aria-label').endsWith(' link'), '"pushed" fake-link aria-label affordance');
+  const theLink = svg.querySelector('a[href]');
+  console.log(svg.outerHTML);
+  t.equal(theLink.getAttribute('role'), 'treeitem' , 'Anchor gets role from "real" SRE node');
+  t.equal(theLink.getAttribute('data-owns-id'), '9', 'Anchor gets data-owns-id from "real" SRE node');
+  t.notOk(theLink.querySelector('[data-owns-id="9"]'), 'Anchor descendents do not have the same data-owns-id, i.e., removed from "real" SRE node.')
+  t.equal(theLink.getAttribute('data-owns'), '2 6 3 7 4 8 5', 'Anchor gets data-owns from "real" SRE node');
+  t.equal(theLink.getAttribute('aria-label'), 'l i n k link', 'Anchor gets aria-label from "real" SRE node');
 });

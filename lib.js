@@ -92,19 +92,28 @@ const generateSemanticIdTable = (nodes) => {
  */
 const postprocessingDescendant = (child) => {
   if (child.getAttribute('role')) return;
+  // general rule: make it presentation (removing it from the accessibility tree)
   if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
     child.setAttribute('role', 'presentation');
     return;
   }
+  // rewrite (proper) links
+  // NOTE. Since MathJax does not support <a> in internal format, the SRE structure is placed inside the a. We assume it's on the first semantic child
   const firstSemanticChild = child.querySelector('[data-semantic-speech]');
   if (!firstSemanticChild) {
     console.warn('Link without semantic child');
     return;
   }
-  firstSemanticChild.setAttribute('data-href', child.getAttribute('href'));
-  firstSemanticChild.setAttribute(
+  // move all attributes
+  [...firstSemanticChild.attributes].forEach(attr => {
+    child.setAttribute(attr.name, attr.value);
+    firstSemanticChild.removeAttribute(attr.name);
+  })
+  firstSemanticChild.setAttribute('role', 'presentation');
+  // tweak aria-label
+  child.setAttribute(
     'aria-label',
-    firstSemanticChild.getAttribute('aria-label') + ' link'
+    child.getAttribute('aria-label') + ' link'
   ); // TODO R&D braille display affordances and how to fit them together with Nemeth
 };
 
