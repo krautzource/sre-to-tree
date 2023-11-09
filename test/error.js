@@ -1,17 +1,16 @@
 const test = require('tape');
 const sre2tree = require('../lib');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const { parseHTML } = require('linkedom');
 
 test('failure tests', async (t) => {
   t.plan(3);
-  const dom = new JSDOM(
-    `<!DOCTYPE html><p>Hello world</p><div> <span data-semantic-speech="bla" data-semantic-owns="2"></span</div>`
+  const { document } = parseHTML(
+    `<!DOCTYPE html><p>Hello world</p><div> <span data-semantic-id data-semantic-speech="bla" data-semantic-owns="2"></span</div>`
   );
-  const p = dom.window.document.querySelector('p');
+  const p = document.querySelector('p');
   const result = sre2tree(p);
   t.equal(result, p, 'Noop when no SRE markup');
-  const div = dom.window.document.querySelector('div');
+  const div = document.querySelector('div');
   const processedDiv = await sre2tree(div)
   t.equal(processedDiv.getAttribute('data-owns'), '', 'Graceful failure with unexpected markup: cut off tree');
   t.equal(processedDiv.getAttribute('aria-label'), 'bla', 'Graceful failure with unexpected markup: label intact');

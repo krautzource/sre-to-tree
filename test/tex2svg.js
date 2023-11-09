@@ -1,4 +1,5 @@
 const sre = require('speech-rule-engine');
+const { parseHTML } = require('linkedom');
 
 // TeX to MathML
 const TeX = require('mathjax-full/js/input/tex.js').TeX;
@@ -27,13 +28,8 @@ const tex2mml = (string, display) => {
 const mathjax = require('mathjax-full/js/mathjax.js').mathjax;
 const MathML = require('mathjax-full/js/input/mathml.js').MathML;
 const SVG = require('mathjax-full/js/output/svg.js').SVG;
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const jsdomadaptor = require('mathjax-full/js/adaptors/jsdomAdaptor.js')
-  .jsdomAdaptor;
-const RegisterHTMLHandler = require('mathjax-full/js/handlers/html.js')
-  .RegisterHTMLHandler;
-const adaptor = jsdomadaptor(JSDOM);
+const RegisterHTMLHandler = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;
+const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
 const mml = new MathML();
 const svg = new SVG();
@@ -71,14 +67,15 @@ const mjenrich = async (texstring, displayBool) => {
   });
   await sre.engineReady();
   const enrichedMmlBraille = await sre.toEnriched(mml).toString();
-  const dom = new JSDOM(`<!DOCTYPE html>${enrichedMmlBraille}`);
-  const brailleDoc = dom.window.document;
-
+  const { document } = parseHTML(`<!DOCTYPE html><div>${adaptor.outerHTML(mjx)}</div><div>${enrichedMmlBraille}</div>`);
+  const mjxWrapper = document.firstElementChild;
+  const brailleWrapper = document.lastElementChild;
+  
   // crossing the streams... cf. zorkow/speech-rule-engine#438
-  mjx.querySelectorAll('[data-semantic-speech]').forEach((node) => {
+  mjxWrapper.querySelectorAll('[data-semantic-speech]').forEach((node) => {
     node.setAttribute(
       'data-semantic-braille',
-      brailleDoc
+      brailleWrapper
         .querySelector(
           '[data-semantic-id="' + node.getAttribute('data-semantic-id') + '"]'
         )
@@ -86,7 +83,7 @@ const mjenrich = async (texstring, displayBool) => {
     );
   });
 
-  return mjx;
+  return mjxWrapper;
 };
 
 module.exports = mjenrich;
