@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/krautzource/sre-to-tree/compare/v3.0.0...v3.0.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* selection of "semantic root" ([25bf789](https://github.com/krautzource/sre-to-tree/commit/25bf789e6e483d5f48a8c8117b69b509e405cb04)), closes [Speech-Rule-Engine/speech-rule-engine#729](https://github.com/Speech-Rule-Engine/speech-rule-engine/issues/729) [#37](https://github.com/krautzource/sre-to-tree/issues/37)
+* upgrade mahtjax, sre ([0eee365](https://github.com/krautzource/sre-to-tree/commit/0eee365e7cb01d9b23c819b55875ce5255dd7620))
+
 ## [3.0.0](https://github.com/krautzource/sre-to-tree/compare/v2.0.2...v3.0.0) (2022-09-22)
 
 
