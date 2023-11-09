@@ -122,7 +122,7 @@ const postprocessingDescendant = (child) => {
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
  */
 const rewrite = (node) => {
-  const skeletonNode = node.querySelector('[data-semantic-speech]');
+  const skeletonNode = node.querySelector('[data-semantic-id]:not([data-semantic-parent])');
   if (!skeletonNode) {
     console.warn('sre-to-tree: no SRE markup found', node);
     return node;
