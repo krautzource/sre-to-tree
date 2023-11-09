@@ -26,8 +26,8 @@
   "homepage": "https://github.com/krautzource/sre-to-tree#readme",
   "devDependencies": {
     "jsdom": "^18.0.1",
-    "mathjax-full": "github:amermathsoc/MathJax-src#991fda683aedc6bd81247f2681392f93ef9cb640",
-    "speech-rule-engine": "4.0.6",
+    "mathjax-full": "v4.0.0-beta.4",
+    "speech-rule-engine": "4.1.0-beta.7",
     "standard-version": "^9.3.2",
     "tape": "^5.3.1"
   },
