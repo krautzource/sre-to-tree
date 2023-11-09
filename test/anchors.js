@@ -8,7 +8,6 @@ test('anchors', async (t) => {
   const svg = out.firstElementChild;
   sre2tree(svg);
   const theLink = svg.querySelector('a[href]');
-  console.log(svg.outerHTML);
   t.equal(theLink.getAttribute('role'), 'treeitem' , 'Anchor gets role from "real" SRE node');
   t.equal(theLink.getAttribute('data-owns-id'), '9', 'Anchor gets data-owns-id from "real" SRE node');
   t.notOk(theLink.querySelector('[data-owns-id="9"]'), 'Anchor descendents do not have the same data-owns-id, i.e., removed from "real" SRE node.')
