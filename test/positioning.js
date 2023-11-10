@@ -1,8 +1,8 @@
-const test = require('tape');
-const sre2tree = require('../lib');
-const tex2svg = require('./tex2svg');
+import tape from 'tape';
+import { sre2tree } from '../lib.js'
+import { tex2svg } from './tex2svg.js';
 
-test('aria positioning', async (t) => {
+tape('aria positioning', async (t) => {
   t.plan(4);
   const out = await tex2svg('a+b = c');
   const svg = out.firstElementChild;

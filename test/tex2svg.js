@@ -1,21 +1,17 @@
-const sre = require('speech-rule-engine');
-const { parseHTML } = require('linkedom');
+import sre from 'speech-rule-engine';
+import { parseHTML } from 'linkedom';
 
 // TeX to MathML
-const TeX = require('mathjax-full/js/input/tex.js').TeX;
-const HTMLDocument = require('mathjax-full/js/handlers/html/HTMLDocument.js')
-  .HTMLDocument;
-const liteAdaptor = require('mathjax-full/js/adaptors/liteAdaptor.js')
-  .liteAdaptor;
-const STATE = require('mathjax-full/js/core/MathItem.js').STATE;
-const AllPackages = require('mathjax-full/js/input/tex/AllPackages.js').AllPackages.filter(
-  (x) => x !== 'bussproofs' && x !== 'textmacros'
-); // NOTE bussproofs needs getBBox() method
-const tex = new TeX({ packages: AllPackages });
+import { TeX } from 'mathjax-full/js/input/tex.js';
+import { HTMLDocument } from 'mathjax-full/js/handlers/html/HTMLDocument.js';
+import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js';
+import { STATE } from 'mathjax-full/js/core/MathItem.js';
+import { AllPackages } from 'mathjax-full/js/input/tex/AllPackages.js';
+const AlmostAllPackages = AllPackages.filter((x) => x !== 'bussproofs' && x !== 'textmacros');// NOTE bussproofs needs getBBox() method
+const tex = new TeX({ packages: AlmostAllPackages });
 const html = new HTMLDocument('', liteAdaptor(), { InputJax: tex });
-const MmlVisitor = require('mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js')
-  .SerializedMmlVisitor;
-const visitor = new MmlVisitor();
+import { SerializedMmlVisitor } from 'mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js';
+const visitor = new SerializedMmlVisitor();
 const toMathML = (node) => visitor.visitTree(node, html);
 
 const tex2mml = (string, display) => {
@@ -25,20 +21,18 @@ const tex2mml = (string, display) => {
 };
 
 // MathML to SVG / CHTML
-const mathjax = require('mathjax-full/js/mathjax.js').mathjax;
-const MathML = require('mathjax-full/js/input/mathml.js').MathML;
-const SVG = require('mathjax-full/js/output/svg.js').SVG;
-const RegisterHTMLHandler = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;
+import { mathjax } from 'mathjax-full/js/mathjax.js';
+import { MathML } from 'mathjax-full/js/input/mathml.js';
+import { SVG } from 'mathjax-full/js/output/svg.js';
+import { RegisterHTMLHandler } from 'mathjax-full/js/handlers/html.js';
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
 const mml = new MathML();
-const svg = new SVG();
+const svg = new SVG({});
 
 const svghtml = mathjax.document('', { InputJax: mml, OutputJax: svg });
 
-// const rewrite = require('sre-to-tree');
-
-const mjenrich = async (texstring, displayBool) => {
+export const tex2svg = async (texstring, displayBool) => {
   // set up MathSpeak output
   await sre.setupEngine({
     domain: 'mathspeak',
@@ -85,5 +79,3 @@ const mjenrich = async (texstring, displayBool) => {
 
   return mjxWrapper;
 };
-
-module.exports = mjenrich;

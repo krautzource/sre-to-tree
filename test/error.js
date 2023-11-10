@@ -1,8 +1,8 @@
-const test = require('tape');
-const sre2tree = require('../lib');
-const { parseHTML } = require('linkedom');
+import tape from 'tape';
+import { sre2tree } from '../lib.js'
+import { parseHTML } from 'linkedom';
 
-test('failure tests', async (t) => {
+tape('failure tests', async (t) => {
   t.plan(3);
   const { document } = parseHTML(
     `<!DOCTYPE html><p>Hello world</p><div> <span data-semantic-id data-semantic-speech="bla" data-semantic-owns="2"></span</div>`

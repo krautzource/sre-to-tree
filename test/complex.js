@@ -1,8 +1,8 @@
-const test = require('tape');
-const sre2tree = require('../lib');
-const tex2svg = require('./tex2svg');
+import tape from 'tape';
+import { sre2tree } from '../lib.js'
+import { tex2svg } from './tex2svg.js';
 
-test('complex SRE output', async (t) => {
+tape('complex SRE output', async (t) => {
     t.plan(1);
     const textCase1 = '\\begin{empheq} [left = \\empheqlbrace \\,]{align} b \\tag{1}\\end{empheq}';   // unusually structured SRE output from Speech-Rule-Engine/speech-rule-engine#729
 

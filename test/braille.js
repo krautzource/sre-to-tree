@@ -1,8 +1,8 @@
-const test = require('tape');
-const sre2tree = require('../lib');
-const tex2svg = require('./tex2svg');
+import tape from 'tape';
+import { sre2tree } from '../lib.js'
+import { tex2svg } from './tex2svg.js';
 
-test('aria-braillelabel', async (t) => {
+tape('aria-braillelabel', async (t) => {
   t.plan(2);
   const out = await tex2svg('f(x) = y');
   const svg = out.firstElementChild;

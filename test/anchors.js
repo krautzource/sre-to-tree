@@ -1,8 +1,8 @@
-const test = require('tape');
-const sre2tree = require('../lib');
-const tex2svg = require('./tex2svg');
+import tape from 'tape';
+import { sre2tree } from '../lib.js'
+import { tex2svg } from './tex2svg.js';
 
-test('anchors', async (t) => {
+tape('anchors', async (t) => {
   t.plan(5);
   const out = await tex2svg('a  = \\href{//example.com}{link}');
   const svg = out.firstElementChild;

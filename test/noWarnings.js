@@ -1,6 +1,5 @@
-
-const sre2tree = require('../lib');
-const tex2svg = require('./tex2svg');
+import { sre2tree } from '../lib.js'
+import { tex2svg } from './tex2svg.js';
 
 (async () => {
     const out = await tex2svg('\\begin{eqnarray} x \\tag{1} \\\\a \\tag{x}\\end{eqnarray}');
