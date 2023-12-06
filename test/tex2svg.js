@@ -40,6 +40,7 @@ export const tex2svg = async (texstring, displayBool) => {
     locale: 'en',
     speech: 'deep',
     structure: true,
+    modality: 'speech',
   });
   await sre.engineReady();
   const mml = tex2mml(texstring, displayBool);
