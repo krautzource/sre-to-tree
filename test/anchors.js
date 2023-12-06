@@ -12,5 +12,5 @@ tape('anchors', async (t) => {
   t.equal(theLink.getAttribute('data-owns-id'), '9', 'Anchor gets data-owns-id from "real" SRE node');
   t.notOk(theLink.querySelector('[data-owns-id="9"]'), 'Anchor descendents do not have the same data-owns-id, i.e., removed from "real" SRE node.')
   t.equal(theLink.getAttribute('data-owns'), '2 6 3 7 4 8 5', 'Anchor gets data-owns from "real" SRE node');
-  t.equal(theLink.getAttribute('aria-label'), 'link link', 'Anchor gets aria-label from "real" SRE node');
+  t.equal(theLink.getAttribute('aria-label'), 'l i n k link', 'Anchor gets aria-label from "real" SRE node');
 });
