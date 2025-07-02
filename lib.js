@@ -17,7 +17,7 @@ const generateLabelAndRole = function (node) {
     node.setAttribute(
       'aria-braillelabel',
       node.getAttribute('data-semantic-braille')
-    );
+    ); // NOTE: if data-semantic-braille is falsy, aria-braillelabel is not set. Instead, AT will fall back to aria-label which will always at least be "blank", cf. #40
   node.setAttribute('role', 'treeitem');
   node.setAttribute('aria-hidden', 'true');
 };
