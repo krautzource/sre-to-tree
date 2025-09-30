@@ -9,7 +9,7 @@ tape('failure tests', async (t) => {
   );
   const p = document.querySelector('p');
   const result = sre2tree(p);
-  t.equal(result, p, 'Noop when no SRE markup');
+  t.equal(result.outerHTML, p.outerHTML, 'Noop when no SRE markup');
   const div = document.querySelector('div');
   const processedDiv = await sre2tree(div)
   t.equal(processedDiv.getAttribute('data-owns'), '', 'Graceful failure with unexpected markup: cut off tree');
