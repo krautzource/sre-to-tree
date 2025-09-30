@@ -124,7 +124,7 @@ const postprocessingDescendant = (child) => {
 export const sre2tree = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-id]:not([data-semantic-parent])');
   if (!skeletonNode) {
-    console.warn('sre-to-tree: no SRE markup found', node);
+    console.warn('sre-to-tree: no SRE markup found:', node.outerHTML);
     return node;
   }
   node.setAttribute('role', 'tree');
