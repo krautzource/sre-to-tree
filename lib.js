@@ -120,6 +120,7 @@ const postprocessingDescendant = (child) => {
 /**
  *
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
+ * @return {Node} the changed node
  */
 export const sre2tree = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-id]:not([data-semantic-parent])');
