@@ -144,4 +144,3 @@ export const sre2tree = (node) => {
   }
   return node;
 };
-
