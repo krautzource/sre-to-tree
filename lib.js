@@ -120,13 +120,45 @@ const postprocessingDescendant = (child) => {
 /**
  *
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
+ * @return {Node} the changed node
  */
 export const sre2tree = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-id]:not([data-semantic-parent])');
   if (!skeletonNode) {
-    console.warn('sre-to-tree: no SRE markup found', node);
+    console.warn('sre-to-tree: no SRE markup found:', node.outerHTML);
     return node;
   }
+  // if (!node.querySelector('[data-semantic-owns]')) {
+  //   // "flat" structure (i.e., just 1 node with data-semantic-speech)
+  //   // move the label: if there's a link, use it - otherwise use the root
+  //   const root = node.querySelector('a') || node;
+  //   if (root === node) root.setAttribute('role', 'img');
+  //   root.setAttribute(
+  //     'aria-label',
+  //     node
+  //       .querySelector('[data-semantic-speech]')
+  //       .getAttribute('data-semantic-speech')
+  //   );
+  //   const brailleLabel = node
+  //     .querySelector('[data-semantic-braille]')
+  //     ?.getAttribute('data-semantic-braille');
+  //   if (brailleLabel) root.setAttribute(
+  //     'aria-braillelabel', brailleLabel
+  //   );
+  //   // mjv4 workaround TODO: do we still need this?
+  //   node.querySelectorAll('[role]').forEach(node => {
+  //     if (node !== root) node.removeAttribute('role') && node.removeAttribute('aria-label') && node.removeAttribute('aria-braillelabel')
+  //   }); // NOTE SRE should really not add these, cf. speech-rule-engine#690
+  // }
+  // // workaround for krautzource/sre-to-tree#41 (a link as the root of a "non-flat" expression causing problems)
+  // // We turn these into a "flat" link (cf. discussion in #125)
+  // const link = node.querySelector('a[aria-label]');
+  // if (!node.hasAttribute('aria-label') && link) {
+  //   node.setAttribute('role', 'presentation');// remove tree role
+  //   link.removeAttribute('role');// remove treeitem role
+  //   link.removeAttribute('aria-hidden');
+  // }
+
   node.setAttribute('role', 'tree');
   const level = 0;
   const descendantNodes = node.querySelectorAll('*');
@@ -143,4 +175,3 @@ export const sre2tree = (node) => {
   }
   return node;
 };
-
