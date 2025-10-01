@@ -5,6 +5,7 @@
   "description": "Rewritig speech-rule-engine enriched DOM nodes to a labeled WAI ARIA tree",
   "main": "lib.js",
   "scripts": {
+    "coverage": "c8 npm test && c8 report --reporter html",
     "release": "standard-version",
     "test": "tape test/*.js"
   },
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/krautzource/sre-to-tree#readme",
   "devDependencies": {
+    "c8": "10.1.3",
     "linkedom": "0.18.12",
     "mathjax-full": "v4.0.0-beta.4",
     "speech-rule-engine": "4.1.0-beta.7",
