@@ -32,7 +32,7 @@
     "linkedom": "0.18.12",
     "@mathjax/src": "4.0.0",
     "speech-rule-engine": "v5.0.0-beta.1",
-    "tape": "^5.3.1"
+    "tape": "5.9.0"
   },
   "publishConfig": {
     "access": "public"
