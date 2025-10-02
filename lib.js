@@ -97,6 +97,11 @@ const postprocessingDescendant = (child) => {
     child.setAttribute('role', 'presentation');
     return;
   }
+  // skip flattened links
+  if (child.hasAttribute('data-sre2tree-flatlink')) {
+    child.removeAttribute('data-sre2tree-flatlink');
+    return;
+  }
   // rewrite (proper) links
   // NOTE. Since MathJax does not support <a> in internal format, the SRE structure is placed inside the a. We assume it's on the first semantic child
   const firstSemanticChild = child.querySelector('[data-semantic-speech]');
@@ -118,7 +123,7 @@ const postprocessingDescendant = (child) => {
 };
 
 /**
- *
+ * Rewrites SRE-enriched MathJax output into a tree structure (except for edge cases)
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
  * @return {Node} the changed node
  */
@@ -128,13 +133,50 @@ export const sre2tree = (node) => {
     console.warn('sre-to-tree: no SRE markup found:', node.outerHTML);
     return node;
   }
-  node.setAttribute('role', 'tree');
-  const level = 0;
   const descendantNodes = node.querySelectorAll('*');
-  const semanticIdTable = generateSemanticIdTable(descendantNodes);
-  rewriteNode(semanticIdTable, level, skeletonNode);
+
+  const link = node.querySelector('a');
+  if (link?.firstElementChild === skeletonNode) {
+    // Edge case 1: link wrapping the semantic root
+    // We turn this into a "flat" link (cf. discussion in #41)
+    node.setAttribute('role', 'presentation');// remove mathjax role from root
+    link.setAttribute(
+      'aria-label',
+      skeletonNode.getAttribute('data-semantic-speech')
+    );
+    const brailleLabel = skeletonNode.getAttribute('data-semantic-braille');
+    if (brailleLabel) link.setAttribute(
+      'aria-braillelabel', brailleLabel
+    );
+    // mark as "special" so postprocessingDescendant() can ignore it
+    link.setAttribute('data-sre2tree-flatlink', '');
+  }
+  else if (!node.querySelector('[data-semantic-owns]')) {
+    // Edge case 2: "flat" (one node with data-semantic-speech) [but not a link]
+    // We move the label to the the root and add img role there
+    node.setAttribute('role', 'img');
+    node.setAttribute(
+      'aria-label',
+      node
+        .querySelector('[data-semantic-speech]')
+        .getAttribute('data-semantic-speech')
+    );
+    const brailleLabel = node
+      .querySelector('[data-semantic-braille]')
+      ?.getAttribute('data-semantic-braille');
+    if (brailleLabel) node.setAttribute(
+      'aria-braillelabel', brailleLabel
+    );
+  }
+  else {
+    // The main case: rewrite to tree
+    node.setAttribute('role', 'tree');
+    const level = 0;
+    const semanticIdTable = generateSemanticIdTable(descendantNodes);
+    rewriteNode(semanticIdTable, level, skeletonNode);
+  }
   descendantNodes.forEach(postprocessingDescendant);
-  if (node !== skeletonNode) {
+  if (node !== skeletonNode && link !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'data-owns');
     moveAttribute(skeletonNode, node, 'aria-label');
     moveAttribute(skeletonNode, node, 'aria-braillelabel');
