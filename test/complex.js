@@ -10,6 +10,6 @@ tape('complex SRE output', async (t) => {
     const svg = out.firstElementChild;
     sre2tree(svg); // NOTE with SVG output, rewrite the SVG node cf. krautzource/sre-to-tree#6
 
-    t.equal(svg.getAttribute('aria-label'), 'left brace StartLayout 1st Row  with Label left parenthesis 1 right parenthesis EndLabel b EndLayout', 'Top-level aria-label'); // NOTE: merely a sort of snapshot test for now
+    t.equal(svg.getAttribute('aria-label'), 'StartLayout Enlarged left brace 1st Row  with Label left parenthesis 1 right parenthesis EndLabel b EndLayout', 'Top-level aria-label'); // NOTE: merely a sort of snapshot test for now
 
 });

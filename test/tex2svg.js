@@ -2,15 +2,36 @@ import sre from 'speech-rule-engine';
 import { parseHTML } from 'linkedom';
 
 // TeX to MathML
-import { TeX } from 'mathjax-full/js/input/tex.js';
-import { HTMLDocument } from 'mathjax-full/js/handlers/html/HTMLDocument.js';
-import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js';
-import { STATE } from 'mathjax-full/js/core/MathItem.js';
-import { AllPackages } from 'mathjax-full/js/input/tex/AllPackages.js';
-const AlmostAllPackages = AllPackages.filter((x) => x !== 'bussproofs' && x !== 'textmacros');// NOTE bussproofs needs getBBox() method
-const tex = new TeX({ packages: AlmostAllPackages });
+import { TeX } from '@mathjax/src/js/input/tex.js';
+import { BaseConfiguration } from '@mathjax/src/js/input/tex/base/BaseConfiguration.js';
+import { AmsConfiguration } from '@mathjax/src/js/input/tex/ams/AmsConfiguration.js';
+import { AmsCdConfiguration } from '@mathjax/src/js/input/tex/amscd/AmsCdConfiguration.js';
+import { BboxConfiguration } from '@mathjax/src/js/input/tex/bbox/BboxConfiguration.js';
+import { BoldsymbolConfiguration } from '@mathjax/src/js/input/tex/boldsymbol/BoldsymbolConfiguration.js';
+import { BraketConfiguration } from '@mathjax/src/js/input/tex/braket/BraketConfiguration.js';
+import { CancelConfiguration } from '@mathjax/src/js/input/tex/cancel/CancelConfiguration.js';
+import { ColorConfiguration } from '@mathjax/src/js/input/tex/color/ColorConfiguration.js';
+import { HtmlConfiguration } from '@mathjax/src/js/input/tex/html/HtmlConfiguration.js';
+import { EmpheqConfiguration } from '@mathjax/src/js/input/tex/empheq/EmpheqConfiguration.js';
+const texPackages = [
+  BaseConfiguration.name,
+  AmsConfiguration.name,
+  AmsCdConfiguration.name,
+  BboxConfiguration.name,
+  BoldsymbolConfiguration.name,
+  BraketConfiguration.name,
+  CancelConfiguration.name,
+  ColorConfiguration.name,
+  HtmlConfiguration.name,
+  EmpheqConfiguration.name
+];
+
+import { HTMLDocument } from '@mathjax/src/js/handlers/html/HTMLDocument.js';
+import { liteAdaptor } from '@mathjax/src/js/adaptors/liteAdaptor.js';
+import { STATE } from '@mathjax/src/js/core/MathItem.js';
+const tex = new TeX({ packages: texPackages });
 const html = new HTMLDocument('', liteAdaptor(), { InputJax: tex });
-import { SerializedMmlVisitor } from 'mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js';
+import { SerializedMmlVisitor } from '@mathjax/src/js/core/MmlTree/SerializedMmlVisitor.js';
 const visitor = new SerializedMmlVisitor();
 const toMathML = (node) => visitor.visitTree(node, html);
 
@@ -21,10 +42,10 @@ const tex2mml = (string, display) => {
 };
 
 // MathML to SVG / CHTML
-import { mathjax } from 'mathjax-full/js/mathjax.js';
-import { MathML } from 'mathjax-full/js/input/mathml.js';
-import { SVG } from 'mathjax-full/js/output/svg.js';
-import { RegisterHTMLHandler } from 'mathjax-full/js/handlers/html.js';
+import { mathjax } from '@mathjax/src/js/mathjax.js';
+import { MathML } from '@mathjax/src/js/input/mathml.js';
+import { SVG } from '@mathjax/src/js/output/svg.js';
+import { RegisterHTMLHandler } from '@mathjax/src/js/handlers/html.js';
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
 const mml = new MathML();
