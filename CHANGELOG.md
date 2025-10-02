@@ -1,6 +1,27 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [4.0.0](https://github.com/krautzource/sre-to-tree/compare/v3.0.1...v4.0.0) (2025-10-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Switch to ESM; switch main to named export, "sre2tree".
+
+### Features
+
+* support non-tree edge cases ([0d64a93](https://github.com/krautzource/sre-to-tree/commit/0d64a9384bcb2f4a5e028cf69c0f34d8bb4f8566)), closes [#41](https://github.com/krautzource/sre-to-tree/issues/41)
+* switch to ESM ([4ecf8f7](https://github.com/krautzource/sre-to-tree/commit/4ecf8f7f29ac0c7f0368b98651a61bd3941a75bd)), closes [#38](https://github.com/krautzource/sre-to-tree/issues/38)
+
+
+### Bug Fixes
+
+* **lib.js:** better no-op warning ([5a75367](https://github.com/krautzource/sre-to-tree/commit/5a75367fc9949b3b734b516049fd5cab860a3c8e))
+* **lib.js:** better no-op warning ([d4e0ee1](https://github.com/krautzource/sre-to-tree/commit/d4e0ee1f9f7dd39954c14c335330431785b00cd2))
+* **package:** switch to commit-and-tag-version ([a910153](https://github.com/krautzource/sre-to-tree/commit/a910153cb44102d1f340ec840145490d8148eb3b))
+* **package:** upgrade mathjax & sre ([28fae1c](https://github.com/krautzource/sre-to-tree/commit/28fae1c59b447c5ca97242d71329ee567f2180e7))
+* **tex2svg:** reset SRE modality ([5968e98](https://github.com/krautzource/sre-to-tree/commit/5968e98a3cfcd258ed0e65886de3128a0a80b284)), closes [#39](https://github.com/krautzource/sre-to-tree/issues/39)
 
 ### [3.0.1](https://github.com/krautzource/sre-to-tree/compare/v3.0.0...v3.0.1) (2023-11-09)
 

@@ -1,7 +1,7 @@
 {
   "name": "@krautzource/sre-to-tree",
   "type": "module",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Rewritig speech-rule-engine enriched DOM nodes to a labeled WAI ARIA tree",
   "main": "lib.js",
   "scripts": {
