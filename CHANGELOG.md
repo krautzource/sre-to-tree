@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.1](https://github.com/krautzource/sre-to-tree/compare/v4.0.0...v4.0.1) (2025-10-02)
+
+
+### Bug Fixes
+
+* presentational elements should not have labels ([9770455](https://github.com/krautzource/sre-to-tree/commit/97704551ea39ae53ef91edd52b96c87b28e61936)), closes [#42](https://github.com/krautzource/sre-to-tree/issues/42)
+
 ## [4.0.0](https://github.com/krautzource/sre-to-tree/compare/v3.0.1...v4.0.0) (2025-10-02)
 
 
