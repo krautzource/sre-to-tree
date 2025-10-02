@@ -13,6 +13,7 @@ import { CancelConfiguration } from '@mathjax/src/js/input/tex/cancel/CancelConf
 import { ColorConfiguration } from '@mathjax/src/js/input/tex/color/ColorConfiguration.js';
 import { HtmlConfiguration } from '@mathjax/src/js/input/tex/html/HtmlConfiguration.js';
 import { EmpheqConfiguration } from '@mathjax/src/js/input/tex/empheq/EmpheqConfiguration.js';
+import { configuration as img } from 'mathjax-img';
 const texPackages = [
   BaseConfiguration.name,
   AmsConfiguration.name,
@@ -23,7 +24,8 @@ const texPackages = [
   CancelConfiguration.name,
   ColorConfiguration.name,
   HtmlConfiguration.name,
-  EmpheqConfiguration.name
+  EmpheqConfiguration.name,
+  img.name,
 ];
 
 import { HTMLDocument } from '@mathjax/src/js/handlers/html/HTMLDocument.js';
@@ -50,6 +52,11 @@ const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
 const mml = new MathML();
 const svg = new SVG({});
+// const svg = new SVG({
+//   linebreaks: {
+//     inline: true,
+//   },
+// });
 
 const svghtml = mathjax.document('', { InputJax: mml, OutputJax: svg });
 
@@ -84,6 +91,8 @@ export const tex2svg = async (texstring, displayBool) => {
   await sre.engineReady();
   const enrichedMmlBraille = await sre.toEnriched(mml).toString();
   const { document } = parseHTML(`<!DOCTYPE html><div>${adaptor.outerHTML(mjx)}</div><div>${enrichedMmlBraille}</div>`);
+  // // FOR LINEBREAKING
+  // const { document } = parseHTML(`<!DOCTYPE html>${adaptor.outerHTML(mjx)}<div>${enrichedMmlBraille}</div>`); // note: removed div to get mjx-container for inline-linebreaking
   const mjxWrapper = document.firstElementChild;
   const brailleWrapper = document.lastElementChild;
   

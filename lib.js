@@ -95,6 +95,8 @@ const postprocessingDescendant = (child) => {
   // general rule: make it presentation (removing it from the accessibility tree)
   if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
     child.setAttribute('role', 'presentation');
+    child.removeAttribute('aria-label');
+    child.removeAttribute('aria-braillelabel');
     return;
   }
   // skip flattened links
