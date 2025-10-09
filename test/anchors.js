@@ -32,7 +32,7 @@ tape('anchors', async (t) => {
   sre2tree(svg);
   
   theLink = svg.querySelector('a[href]');
-  t.equal(svg.getAttribute('role'), 'presentation', '"Wrapping Anchor" with "flat" expression: svg is presentation');
+  t.equal(svg.querySelector('svg').getAttribute('role'), 'presentation', '"Wrapping Anchor" with "flat" expression: svg is presentation');
   t.equal(theLink.hasAttribute('role'), false , '"Wrapping Anchor" with "flat" expression: does not get role from "real" SRE node');
   t.equal(theLink.hasAttribute('data-owns-id'), false, '"Wrapping Anchor" with "flat" expression: does not get data-owns-id from "real" SRE node');
   t.notOk(theLink.querySelector(':not([role="presentation"])'), '"Wrapping Anchor" with "flat" expression: descendents are presentational.')

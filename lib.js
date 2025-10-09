@@ -91,7 +91,8 @@ const generateSemanticIdTable = (nodes) => {
  * @param {Node} child A DOM descendant to postprocess
  */
 const postprocessingDescendant = (child) => {
-  if (child.getAttribute('role')) return;
+  // skip nodes we processed
+  if (child.getAttribute('role')?.startsWith('tree')) return;
   // general rule: make it presentation (removing it from the accessibility tree)
   if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
     child.setAttribute('role', 'presentation');
@@ -141,7 +142,7 @@ export const sre2tree = (node) => {
   if (link?.firstElementChild === skeletonNode) {
     // Edge case 1: link wrapping the semantic root
     // We turn this into a "flat" link (cf. discussion in #41)
-    node.setAttribute('role', 'presentation');// remove mathjax role from root
+    // NOTE: postprocessingDescendant() will remove role=img added by mathjax.
     link.setAttribute(
       'aria-label',
       skeletonNode.getAttribute('data-semantic-speech')
