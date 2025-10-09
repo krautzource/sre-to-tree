@@ -142,7 +142,8 @@ export const sre2tree = (node) => {
   if (link?.contains(skeletonNode)) {
     // Edge case 1: link wrapping the semantic root
     // We turn this into a "flat" link (cf. discussion in #41)
-    // NOTE: postprocessingDescendant() will remove role=img added by mathjax.
+    // NOTE: postprocessingDescendant() will remove role=img added by mathjax on descendants; we only need to handle the given node
+    postprocessingDescendant(node);
     link.setAttribute(
       'aria-label',
       skeletonNode.getAttribute('data-semantic-speech')
