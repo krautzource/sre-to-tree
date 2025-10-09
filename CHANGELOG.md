@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.3](https://github.com/krautzource/sre-to-tree/compare/v4.0.2...v4.0.3) (2025-10-09)
+
+
+### Bug Fixes
+
+* "wrapping links" should clean-up main node ([fe77af4](https://github.com/krautzource/sre-to-tree/commit/fe77af4911fe466805314bed63f0167d885a34f4)), closes [#44](https://github.com/krautzource/sre-to-tree/issues/44)
+
 ## [4.0.2](https://github.com/krautzource/sre-to-tree/compare/v4.0.1...v4.0.2) (2025-10-09)
 
 
