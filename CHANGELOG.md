@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.2](https://github.com/krautzource/sre-to-tree/compare/v4.0.1...v4.0.2) (2025-10-09)
+
+
+### Bug Fixes
+
+* complex "wrapping links" ([92ac600](https://github.com/krautzource/sre-to-tree/commit/92ac60063282f59c5a341e9224f7eb70aab81d33)), closes [#43](https://github.com/krautzource/sre-to-tree/issues/43)
+* removing svg img role in edge cases ([a75bced](https://github.com/krautzource/sre-to-tree/commit/a75bcedc209b1e06882e77916f80b435f20fc6e3)), closes [#44](https://github.com/krautzource/sre-to-tree/issues/44)
+
 ## [4.0.1](https://github.com/krautzource/sre-to-tree/compare/v4.0.0...v4.0.1) (2025-10-02)
 
 
