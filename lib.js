@@ -139,7 +139,7 @@ export const sre2tree = (node) => {
   const descendantNodes = node.querySelectorAll('*');
 
   const link = node.querySelector('a');
-  if (link?.firstElementChild === skeletonNode) {
+  if (link?.contains(skeletonNode)) {
     // Edge case 1: link wrapping the semantic root
     // We turn this into a "flat" link (cf. discussion in #41)
     // NOTE: postprocessingDescendant() will remove role=img added by mathjax.

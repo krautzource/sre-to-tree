@@ -14,6 +14,8 @@ import { ColorConfiguration } from '@mathjax/src/js/input/tex/color/ColorConfigu
 import { HtmlConfiguration } from '@mathjax/src/js/input/tex/html/HtmlConfiguration.js';
 import { EmpheqConfiguration } from '@mathjax/src/js/input/tex/empheq/EmpheqConfiguration.js';
 import { configuration as img } from 'mathjax-img';
+import { configuration as xhref } from '@amermathsoc/mathjax-xhref';
+
 const texPackages = [
   BaseConfiguration.name,
   AmsConfiguration.name,
@@ -26,6 +28,7 @@ const texPackages = [
   HtmlConfiguration.name,
   EmpheqConfiguration.name,
   img.name,
+  xhref.name,
 ];
 
 import { HTMLDocument } from '@mathjax/src/js/handlers/html/HTMLDocument.js';
