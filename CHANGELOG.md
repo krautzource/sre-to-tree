@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.0.0](https://github.com/krautzource/sre-to-tree/compare/v4.0.3...v5.0.0) (2026-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove (most) ARIA markup
+
+### Features
+
+* remove (most) ARIA markup ([ffa51ca](https://github.com/krautzource/sre-to-tree/commit/ffa51ca711f550c13f9f81aa8fc9797c7a9a542b)), closes [#45](https://github.com/krautzource/sre-to-tree/issues/45)
+
 ## [4.0.3](https://github.com/krautzource/sre-to-tree/compare/v4.0.2...v4.0.3) (2025-10-09)
 
 
