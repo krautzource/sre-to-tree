@@ -9,5 +9,5 @@ tape('aria-braillelabel', async (t) => {
   sre2tree(svg); // NOTE with SVG output, rewrite the SVG node cf. krautzource/sre-to-tree#6
 
   t.ok(svg.hasAttribute('aria-braillelabel'), 'Root has aria-braillelabel');
-  t.ok(svg.querySelector('[aria-label]').hasAttribute('aria-braillelabel'), 'Descendant with aria-label also gets aria-braillelabel');
+  t.ok(svg.querySelector('[data-label]').hasAttribute('data-braillelabel'), 'Descendant with aria-label also gets aria-braillelabel');
 });

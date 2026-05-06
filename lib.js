@@ -3,8 +3,9 @@
  * @param {Node} node current node
  */
 const generateLabelAndRole = function (node) {
+  node.setAttribute('role', 'presentation'); // TODO: remove?
+  node.setAttribute('aria-hidden', 'true'); // TODO: remove?
   if (!node.hasAttribute('data-semantic-speech')) {
-    node.setAttribute('role', 'presentation');
     return;
   }
   let speech = '';
@@ -12,46 +13,35 @@ const generateLabelAndRole = function (node) {
     speech += node.getAttribute('data-semantic-prefix') + ' ';
   speech += node.getAttribute('data-semantic-speech');
   if (speech === '') speech = 'blank';
-  node.setAttribute('aria-label', speech);
+  node.setAttribute('data-label', speech);
   if (node.getAttribute('data-semantic-braille'))
     node.setAttribute(
-      'aria-braillelabel',
+      'data-braillelabel',
       node.getAttribute('data-semantic-braille')
-    ); // NOTE: if data-semantic-braille is falsy, aria-braillelabel is not set. Instead, AT will fall back to aria-label which will always at least be "blank", cf. #40
-  node.setAttribute('role', 'treeitem');
-  node.setAttribute('aria-hidden', 'true');
+    );
 };
 
 /**
  * Rewrites the DOM node and potentially recurses to children.
  * @param {Object} semanticIdTable A hash table to look up nodes by data-semantic-id.
- * @param {Number} level The parent node's level in the tree.
  * @param {Node} node The DOM node to rewrite (usually passed from Array.prototype.forEach).
- * @param {Number} index The index (passed from Array.prototype.forEach).
- * @param {Array} array The array (passed from Array.prototype.forEach).
  */
-function rewriteNode(semanticIdTable, level, node, index, array) {
+function rewriteNode(semanticIdTable, node) {
   node.setAttribute('data-owns-id', node.getAttribute('data-semantic-id'));
-  if (Number.isInteger(index) && array.length) {
-    node.setAttribute('aria-level', level);
-    node.setAttribute('aria-posinset', ++index);
-    node.setAttribute('aria-setsize', array.length);
-  }
-  level++;
   generateLabelAndRole(node);
   const semanticOwned = node.getAttribute('data-semantic-owns');
   if (!semanticOwned) return;
   const validOwned = semanticOwned
     .split(' ')
     .filter((id) => {
-      if (!semanticIdTable[id]) console.warn(`Bad data-semantic-owns value: ${id} on parent ID ${node.getAttribute('data-semantic-id')}`);
+      if (!semanticIdTable[id]) console.warn(`sre-to-tree: Bad data-semantic-owns value: ${id} on parent ID ${node.getAttribute('data-semantic-id')}`);
       return semanticIdTable[id];
     });
   node.setAttribute('data-owns', validOwned.join(' '));
 
   validOwned
     .map((id) => semanticIdTable[id])
-    .forEach(rewriteNode.bind(null, semanticIdTable, level));
+    .forEach(rewriteNode.bind(null, semanticIdTable));
 }
 
 /**
@@ -92,10 +82,10 @@ const generateSemanticIdTable = (nodes) => {
  */
 const postprocessingDescendant = (child) => {
   // skip nodes we processed
-  if (child.getAttribute('role')?.startsWith('tree')) return;
+  if (child.hasAttribute('data-label')) return;
   // general rule: make it presentation (removing it from the accessibility tree)
   if (child.tagName.toUpperCase() !== 'A' || !child.hasAttribute('href')) {
-    child.setAttribute('role', 'presentation');
+    child.setAttribute('role', 'presentation'); // TODO: remove?
     child.removeAttribute('aria-label');
     child.removeAttribute('aria-braillelabel');
     return;
@@ -109,26 +99,33 @@ const postprocessingDescendant = (child) => {
   // NOTE. Since MathJax does not support <a> in internal format, the SRE structure is placed inside the a. We assume it's on the first semantic child
   const firstSemanticChild = child.querySelector('[data-semantic-speech]');
   if (!firstSemanticChild) {
-    console.warn('Link without semantic child');
+    console.warn('sre-to-tree: Link without semantic child');
     return;
   }
   // move all attributes
   [...firstSemanticChild.attributes].forEach(attr => {
+    if (attr.name === 'role') return; // don't move role(=presentation) to link
+    if (attr.name === 'aria-hidden') return; // don't move aria-hidden to link
     child.setAttribute(attr.name, attr.value);
     firstSemanticChild.removeAttribute(attr.name);
   })
-  firstSemanticChild.setAttribute('role', 'presentation');
-  // tweak aria-label
+  // links must have names
   child.setAttribute(
     'aria-label',
-    child.getAttribute('aria-label') + ' link'
-  ); // TODO R&D braille display affordances and how to fit them together with Nemeth
+    child.getAttribute('data-label')
+  );
+  if (child.hasAttribute('data-braillelabel')) {
+    child.setAttribute(
+      'aria-braillelabel',
+      child.getAttribute('data-braillelabel')
+    );
+  }
 };
 
 /**
  * Rewrites SRE-enriched MathJax output into a tree structure (except for edge cases)
  * @param {Node} node A DOM node containing speech-rule-engine-style attributes (data-semantic-*)
- * @return {Node} the changed node
+ * @return {Node} the same node (after changes)
  */
 export const sre2tree = (node) => {
   const skeletonNode = node.querySelector('[data-semantic-id]:not([data-semantic-parent])');
@@ -173,20 +170,20 @@ export const sre2tree = (node) => {
     );
   }
   else {
-    // The main case: rewrite to tree
-    node.setAttribute('role', 'tree');
-    const level = 0;
+    // The main case: rewrite the SRE tree structure
+    node.setAttribute('role', 'img');// the simplest default role as fallback for downstream
     const semanticIdTable = generateSemanticIdTable(descendantNodes);
-    rewriteNode(semanticIdTable, level, skeletonNode);
+    rewriteNode(semanticIdTable, skeletonNode);
   }
   descendantNodes.forEach(postprocessingDescendant);
   if (node !== skeletonNode && link !== skeletonNode) {
     moveAttribute(skeletonNode, node, 'data-owns');
-    moveAttribute(skeletonNode, node, 'aria-label');
-    moveAttribute(skeletonNode, node, 'aria-braillelabel');
-    moveAttribute(skeletonNode, node, 'aria-level');
+    moveAttribute(skeletonNode, node, 'data-owns-id');
+    moveAttribute(skeletonNode, node, 'data-label');
+    moveAttribute(skeletonNode, node, 'data-braillelabel');
+    if (node.hasAttribute('data-label')) node.setAttribute('aria-label', node.getAttribute('data-label'));
+    if (node.hasAttribute('data-braillelabel')) node.setAttribute('aria-braillelabel', node.getAttribute('data-braillelabel'));
     skeletonNode.removeAttribute('aria-hidden');
-    skeletonNode.setAttribute('role', 'presentation');
   }
   return node;
 };

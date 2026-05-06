@@ -9,11 +9,11 @@ tape('anchors', async (t) => {
   let node = out.firstElementChild;
   sre2tree(node);
   let theLink = node.querySelector('a[href]');
-  t.equal(theLink.getAttribute('role'), 'treeitem', 'Anchor gets role from "real" SRE node');
+  t.notOk(theLink.hasAttribute('role'), 'Anchor does not get a role from "real" SRE node');
   t.equal(theLink.getAttribute('data-owns-id'), '9', 'Anchor gets data-owns-id from "real" SRE node');
   t.notOk(theLink.querySelector('[data-owns-id="9"]'), 'Anchor descendents do not have the same data-owns-id, i.e., removed from "real" SRE node.')
   t.equal(theLink.getAttribute('data-owns'), '2 6 3 7 4 8 5', 'Anchor gets data-owns from "real" SRE node');
-  t.equal(theLink.getAttribute('aria-label'), 'l i n k link', 'Anchor gets aria-label from "real" SRE node');
+  t.equal(theLink.getAttribute('aria-label'), 'l i n k', 'Anchor gets aria-label from "real" SRE node');
 
   // "Outer"/"wrapping" links are "flattened" (not trees)
   out = await tex2svg('\\href{a}{b, c}');
